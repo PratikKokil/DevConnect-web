@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addUser } from '../utils/userSlice';
 import { Eye, EyeOff } from "lucide-react"; 
-
+import { url } from '../utils/constants';
 
 const Login = () => {
+
   const [isLogInForm, setIsLogInForm] = useState(true);
   const [emailId, setEmailId] = useState('');
   const [password, setPassword] = useState('');
@@ -21,20 +22,37 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+      useEffect(() => {
+     
+        setFirstName('');
+        setLastName('');
+        setAge('');
+        setGender('');
+        setConfirmPassword('');
+        setPassword('');
+        setEmailId('');
+        setError('');
+      }, [isLogInForm]);
+
+      useEffect(() => {
+        setIsLogInForm(true); 
+      }, []);
+
 
   const handleLogInForm = async () => {
     try {
       const res = await axios.post(
-        'http://localhost:7000/login',
+        url+'/login',
         {
           emailId,
           password,
         },
         { withCredentials: true }
       );
-      console.log(res.data.user);
+      
       dispatch(addUser(res.data.user))
-      navigate('/dashboard');
+          console.log(res.data.user)
+      navigate('/feed');
     } catch (error) {
       const backendMsg = error?.response?.data?.error;
       setError(backendMsg);
@@ -48,7 +66,7 @@ const Login = () => {
         return;
       }
       const res = await axios.post(
-        'http://localhost:7000/signUp',
+        url+'/signUp',
         {
           firstName,
           lastName,
@@ -60,7 +78,8 @@ const Login = () => {
         { withCredentials: true }
       );
       dispatch(addUser(res.data.user))
-      navigate('/dashboard');
+      console.log(res.data.user)
+      navigate('/profile');
     } catch (error) {
       const backendMsg = error?.response?.data?.error;
       setError(backendMsg);
@@ -110,7 +129,13 @@ const Login = () => {
               placeholder="Enter your Password"
               value={password}
               onChange={(e) => {setPassword(e.target.value);setError('');}}
-              onKeyDown={e => e.key === "Enter" && isLogInForm ? handleLogInForm() : handleSignUpForm()}
+              onKeyDown={e =>{
+                 if(e.key === "Enter") 
+                  {
+                    isLogInForm ? handleLogInForm() : handleSignUpForm()
+                  }
+                }
+              }
               className="input pr-10 w-full"
             />
             <div
@@ -129,7 +154,13 @@ const Login = () => {
                     placeholder="Confirm the Password"
                     value={confirmPassword}
                     onChange={(e) =>{ setConfirmPassword(e.target.value);setError('');}}
-                    onKeyDown={e => e.key === "Enter" && isLogInForm ? handleLogInForm() : handleSignUpForm()}
+                    onKeyDown={e => {
+                      if(e.key === "Enter")
+                        { 
+                          isLogInForm ? handleLogInForm() : handleSignUpForm()
+                        }
+                      }
+                    }
                     className="input pr-10 w-full"
                   />
                   <div
