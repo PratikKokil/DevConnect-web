@@ -52,7 +52,7 @@ const Login = () => {
       
       dispatch(addUser(res.data.user))
           console.log(res.data.user)
-      navigate('/feed');
+      navigate('/');
     } catch (error) {
       const backendMsg = error?.response?.data?.error;
       setError(backendMsg);

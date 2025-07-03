@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, {  useEffect, useState } from 'react'
 import Navbar from './Navbar'
 import { Outlet, useNavigate } from 'react-router-dom'
 import Footer from './Footer'
@@ -9,44 +9,45 @@ import { addUser } from '../utils/userSlice'
 
 const Body = () => {
   const dispatch = useDispatch();
-  const user = useSelector(store => store.user);
+  const userData = useSelector(store => store.user);
   const navigate = useNavigate();
   const [loading , setLoading] = useState(false);
-  const fetchUser = async()=>{
+
+    const fetchUser = async () => {
     try {
-      const user = await axios.get(
-        url+'/profile/view',{
-           withCredentials:true,
-        }
-       )
-       setLoading(false);
-       dispatch(addUser(user.data))
-       console.log(user.data)
+      const user = await axios.get(`${url}/profile/view`, {
+        withCredentials: true,
+      });
+      setLoading(false);
+      dispatch(addUser(user.data));
+
     } catch (error) {
-      if(error.status == 401){
-       setLoading(false);
+      setLoading(false);
+      if (error?.response?.status === 401) {
         navigate('/login');
       }
       console.log(error);
     }
   };
-  useEffect(()=>{
-      if(!user){
-        setLoading(true);
-        fetchUser();
-        console.log("user fetched from body....")
-      }
-      
-  },[])
-   if (loading){
-    return (
- <div className="flex flex-col items-center justify-center h-screen">
-  <div className="w-16 h-16 border-4 border-blue-500 border-dashed rounded-full animate-[spin_4s_linear_infinite]"></div>
-  <div className="mt-4 text-gray-600 text-lg">Loading.......</div>
-</div>
 
-    )
-   }
+  useEffect(() => {
+    if (!userData) {
+      setLoading(true);
+      fetchUser();
+    }
+    }, []);
+    if (loading){
+      return (
+        <div className='flex justify-center h-screen items-center'>
+        <span className="loading loading-ring loading-xs"></span>
+        <span className="loading loading-ring loading-sm"></span>
+        <span className="loading loading-ring loading-md"></span>
+        <span className="loading loading-ring loading-lg"></span>
+        <span className="loading loading-ring loading-xl"></span>
+        </div>
+
+      )
+    }
   return (
      
     <div>

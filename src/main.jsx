@@ -7,8 +7,8 @@ import appStore from './utils/appStore.js'
 
 createRoot(document.getElementById('root')).render(
     <Provider store={appStore} > 
-      <StrictMode>
+      {/* <StrictMode> */}
         <App />
-      </StrictMode>
+      {/* </StrictMode> */}
     </Provider>,
 )
