@@ -10,7 +10,9 @@ const Navbar = () => {
     const user = useSelector(store=> store?.user)
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const firstName=user?.firstName;
+   const firstName = user?.firstName ?? "Developer";
+   const photoUrl = user?.photoUrl ?? "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp";
+
    const handleLogOut = async () => {
     try {
       await axios.post(url + "/logout", {}, { withCredentials: true });
@@ -36,7 +38,7 @@ const Navbar = () => {
                     <div className="w-10 rounded-full">
                     <img
                         alt="Tailwind CSS Navbar component"
-                        src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                        src={photoUrl} />
                     </div>
                 </div>       
                 <ul

@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { addUser } from '../utils/userSlice';
 import { Eye, EyeOff } from "lucide-react"; 
 import { url } from '../utils/constants';
-
+import InputField from './InputField';
 const Login = () => {
 
   const [isLogInForm, setIsLogInForm] = useState(true);
@@ -85,18 +85,7 @@ const Login = () => {
       setError(backendMsg);
     }
   };
-      const InputField = ({ label, type, value, onChange, placeholder }) => (
-      <>
-        <span>{label}</span>
-        <input
-          type={type}
-          value={value}
-          onChange={onChange}
-          placeholder={placeholder}
-          className="input"
-        />
-      </>
-    );
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-base-200">
