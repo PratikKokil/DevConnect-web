@@ -4,12 +4,12 @@ import Login from "./components/Login"
 import Feed from "./components/Feed"
 import { useSelector} from "react-redux"
 import Profile from "./components/Profile"
+import Connections from "./components/Connections"
 
 
 function App() {
 
   const user = useSelector(store=>store.user)
-
 
   return (
     <>
@@ -19,6 +19,7 @@ function App() {
         <Route path="/" element={<Feed/>}/>
         <Route path="/login" element={user ? <Navigate to="/"/> : <Login/>} />
         <Route path="/profile" element={<Profile/>}/>
+        <Route path="/connections" element={<Connections/>}/>
         </Route>
       </Routes>
       </BrowserRouter>
