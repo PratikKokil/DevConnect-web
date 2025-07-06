@@ -5,6 +5,7 @@ import Feed from "./components/Feed"
 import { useSelector} from "react-redux"
 import Profile from "./components/Profile"
 import Connections from "./components/Connections"
+import Requests from "./components/Requests"
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
         <Route path="/login" element={user ? <Navigate to="/"/> : <Login/>} />
         <Route path="/profile" element={<Profile/>}/>
         <Route path="/connections" element={<Connections/>}/>
+        <Route path="/requests" element={<Requests/>}/>
         </Route>
       </Routes>
       </BrowserRouter>

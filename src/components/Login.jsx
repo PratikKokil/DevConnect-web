@@ -51,7 +51,7 @@ const Login = () => {
       );
       
       dispatch(addUser(res.data.user))
-          console.log(res.data.user)
+         
       navigate('/');
     } catch (error) {
       const backendMsg = error?.response?.data?.error;
@@ -78,7 +78,7 @@ const Login = () => {
         { withCredentials: true }
       );
       dispatch(addUser(res.data.user))
-      console.log(res.data.user)
+    
       navigate('/profile');
     } catch (error) {
       const backendMsg = error?.response?.data?.error;

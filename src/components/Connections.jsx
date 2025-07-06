@@ -31,11 +31,13 @@ const Connections = () => {
   return (
     <div>
       {connections.map((connection) =>{
-        const{firstName,lastName,photoUrl,age,gender}=connection;
+        const{firstName,lastName,photoUrl,age,gender,_id}=connection;
+        
         return (
-            <div className=" flex flex-col items-center justify-center ">
+            
+        <div key={_id} className=" flex flex-col items-center justify-center ">
         <div className="flex flex-col justify-center w-full md:w-1/2 p-4">
-        <div className="flex items-center  gap-4 bg-white/5 border border-white/10 rounded-xl p-4 backdrop-blur-md shadow-md hover:shadow-xl transition duration-300">
+        <div className="flex items-center  gap-4 bg-white/5 border border-white/10 rounded-xl p-4 backdrop-blur-md shadow-md hover:shadow-xl   hover:scale-[1.02] transition-transform duration-300">
             
             <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-blue-500">
             <img
