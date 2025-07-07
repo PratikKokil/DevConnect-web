@@ -48,12 +48,11 @@ const handleSaveProfile = async()=>{
 
  }
 
-
  return (
    <>
     <div className='flex  justify-center m-4  gap-4'>    
       <div className=" flex items-center justify-center mx-5 bg-base-200">
-        <div className="card card-border bg-base-300 w-96">
+        <div className="card card-border bg-gray-900 w-96">
             <div className="card-body">
             <h2 className="card-title justify-center">
             {'Edit Your Profile'}

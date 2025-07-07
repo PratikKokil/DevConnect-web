@@ -38,17 +38,19 @@ const Requests = () => {
 
   if (requests.length === 0)
     return (
+      <div className="relative min-h-screen bg-gray-900 overflow-hidden px-4 py-10">
+        {/* Background Image */}
+        <img
+          className="absolute inset-0 w-full h-full object-cover opacity-30 z-0"
+          src={backgroundImg}
+          alt="Background"
+        />
 
-      <div className="relative min-h-screen bg-gray-900 px-4 py-10">
-      {/* Background Image */}
-      <img
-        src={backgroundImg}
-        alt="Tech network background"
-        className="absolute top-0 left-0 w-full h-full object-cover opacity-25 z-10"
-      />
-      <div className="flex items-center justify-center h-[60vh]">
-        <h1 className="text-white text-xl">You have no connection requests.</h1>
-      </div>
+        <div className="relative z-10 flex items-center justify-center min-h-[60vh]">
+          <h1 className="text-white text-2xl text-center font-semibold">
+            You have no connections request yet!
+          </h1>
+        </div>
       </div>
     );
 
@@ -58,7 +60,7 @@ const Requests = () => {
       <img
         src={backgroundImg}
         alt="Tech network background"
-        className="absolute top-0 left-0 w-full h-full object-cover opacity-25 z-10"
+        className="absolute top-0 left-0 w-full h-full object-cover opacity-35 z-10"
       />
 
       <h1 className="text-3xl text-white font-bold text-center mb-8">

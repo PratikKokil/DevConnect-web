@@ -6,6 +6,7 @@ import { addUser } from '../utils/userSlice';
 import { Eye, EyeOff } from "lucide-react"; 
 import { url } from '../utils/constants';
 import InputField from './InputField';
+import BackgroundImg from '../assets/backgroundimg.jpg'
 const Login = () => {
 
   const [isLogInForm, setIsLogInForm] = useState(true);
@@ -88,8 +89,12 @@ const Login = () => {
 
 
   return (
+    <div className='relative min-h-screen bg-gray-900 '>
+      <div>
+        <img className="absolute inset-0 w-full h-full object-cover opacity-40 z-0"src={BackgroundImg}></img>
+      </div>
     <div className="min-h-screen flex items-center justify-center bg-base-200">
-      <div className="card card-border bg-base-100 w-96">
+      <div className="card card-border bg-gray-900 w-96">
         <div className="card-body">
           <h2 className="card-title justify-center">
            {isLogInForm ? 'Log In to DevConnect' : 'Create Your DevConnect Account'}
@@ -187,6 +192,7 @@ const Login = () => {
           
         </div>
       </div>
+    </div>
     </div>
   );
 };
