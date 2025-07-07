@@ -1,10 +1,28 @@
 import React from 'react';
-import {  useSelector } from 'react-redux';
+import {  useDispatch, useSelector } from 'react-redux';
 import backgroundImg from '../assets/backgroundimg.jpg';
+import { url } from '../utils/constants';
+import axios from 'axios';
+import { removeRequest } from '../utils/requestsSlice';
 
 const Requests = () => {
   
   const requests = useSelector((store) => store.Requests);
+  const dispatch = useDispatch();
+  const reviewRequest =async(status,_id)=>{
+    try {
+      const res = await axios.post(
+      url + '/request/review/'+status+'/'+_id,
+      {},
+      {withCredentials:true}
+     )
+     dispatch(removeRequest(_id))
+     console.log(res.data)
+    } catch (error) {
+      console.log(error)
+    }
+
+  }
 
   if (!requests){ 
           return (
@@ -55,7 +73,7 @@ const Requests = () => {
           return (
             <div
               key={_id}
-              className="flex items-center justify-between gap-6 bg-white/5 border border-white/10 rounded-xl p-5 backdrop-blur-md shadow-md hover:shadow-xl hover:scale-[1.01] transition-transform duration-300"
+              className="flex items-center justify-between gap-6 bg-white/5 border border-white/10 rounded-xl p-5 backdrop-blur-md shadow-md hover:shadow-xl  hover:scale-[1.01] transition-transform duration-300 z-20"
             >
               {/* Profile Picture */}
               <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-blue-500">
@@ -77,14 +95,10 @@ const Requests = () => {
               </div>
 
               {/* Buttons */}
-              <div className="flex flex-col gap-2">
-                <button className="px-4 py-2 rounded-md bg-green-600 hover:bg-green-700 text-white text-sm font-medium transition">
-                  Accept
-                </button>
-                <button className="px-4 py-2 rounded-md bg-red-600 hover:bg-red-700 text-white text-sm font-medium transition">
-                  Reject
-                </button>
-              </div>
+             
+              <button className="btn btn-soft btn-secondary" onClick={()=>reviewRequest("rejected",request._id)}>Reject</button>
+              <button className="btn btn-soft btn-success" onClick={()=>reviewRequest("accepted",request._id)}>Accept</button>
+              
             </div>
           );
         })}
