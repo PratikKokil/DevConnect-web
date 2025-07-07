@@ -5,12 +5,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import {addFeed} from '../utils/feedSlice'
 import UserCard from './UserCard'
  
-const feed = () => {
+const Feed = () => {
 
  // eslint-disable-next-line react-hooks/rules-of-hooks
- const dispatch = useDispatch();
- const feed = useSelector(store=>store.feed)
- const users = feed?.users;
+  const dispatch = useDispatch();
+  const feed = useSelector(store=>store.feed)
+  const users = feed?.users;
   const getFeed =async()=>{
     const res = await axios.get(url + '/feed',{
       withCredentials:true
@@ -21,6 +21,7 @@ const feed = () => {
   useEffect(()=>{
       getFeed();
   },[])
+ 
 
   return (
     feed &&
@@ -30,4 +31,4 @@ const feed = () => {
   )
 }
 
-export default feed;
+export default Feed;

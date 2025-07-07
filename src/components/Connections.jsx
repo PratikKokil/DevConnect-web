@@ -4,7 +4,6 @@ import { url } from '../utils/constants'
 import { useDispatch, useSelector } from 'react-redux'
 import { addConnections } from '../utils/connectionsSlice'
 
-
 const Connections = () => {
     const dispatch = useDispatch();
     const connections = useSelector(store=>store.Connections)

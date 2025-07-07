@@ -23,7 +23,9 @@ const Navbar = () => {
       console.log(err);
     } 
   };
+  
   if (!requests) return;
+  
   return (
     <div>
            <div className="navbar bg-gray-900 shadow-sm">

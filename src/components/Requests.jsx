@@ -1,35 +1,36 @@
-import axios from 'axios';
-import React, { useEffect } from 'react';
-import { url } from '../utils/constants';
-import { useDispatch, useSelector } from 'react-redux';
-import { addRequests } from '../utils/requestsSlice';
+import React from 'react';
+import {  useSelector } from 'react-redux';
 import backgroundImg from '../assets/backgroundimg.jpg';
 
 const Requests = () => {
-  const dispatch = useDispatch();
+  
   const requests = useSelector((store) => store.Requests);
 
-  const fetchRequests = async () => {
-    try {
-      const res = await axios.get(url + '/user/request/recevied', {
-        withCredentials: true,
-      });
-      dispatch(addRequests(res.data.connectionRequest));
-    } catch (error) {
-      console.log(error);
-    }
+  if (!requests){ 
+          return (
+        <div className='flex justify-center h-screen items-center'>
+        <span className="loading loading-ring loading-xs"></span>
+        <span className="loading loading-ring loading-sm"></span>
+        <span className="loading loading-ring loading-md"></span>
+        <span className="loading loading-ring loading-lg"></span>
+        <span className="loading loading-ring loading-xl"></span>
+        </div>
+      )
   };
-
-  useEffect(() => {
-    fetchRequests();
-  }, []);
-
-  if (!requests) return null;
 
   if (requests.length === 0)
     return (
+
+      <div className="relative min-h-screen bg-gray-900 px-4 py-10">
+      {/* Background Image */}
+      <img
+        src={backgroundImg}
+        alt="Tech network background"
+        className="absolute top-0 left-0 w-full h-full object-cover opacity-25 z-10"
+      />
       <div className="flex items-center justify-center h-[60vh]">
         <h1 className="text-white text-xl">You have no connection requests.</h1>
+      </div>
       </div>
     );
 
