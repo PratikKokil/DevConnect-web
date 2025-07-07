@@ -14,17 +14,17 @@ export const useInitialData = () => {
   const requests = useSelector((store) => store.Requests);
 
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchData = async () => {
+      const fetchData = async () => {
+      
       try {
         const [userRes, requestRes] = await Promise.all([
-          !userData ? axios.get(`${url}/profile/view`, { withCredentials: true }) : Promise.resolve({ data: userData }),
-          !requests ? axios.get(`${url}/user/request/recevied`, { withCredentials: true }) : Promise.resolve({ data: { connectionRequest: requests } })
+           axios.get(`${url}/profile/view`, { withCredentials: true }) ,
+           axios.get(`${url}/user/request/recevied`, { withCredentials: true })
         ]);
 
-        if (!userData) dispatch(addUser(userRes.data));
-        if (!requests) dispatch(addRequests(requestRes.data.connectionRequest));
+        dispatch(addUser(userRes.data));
+       dispatch(addRequests(requestRes.data.connectionRequest));
+     
       } catch (error) {
         if (error?.response?.status === 401) {
           navigate('/login');
@@ -35,8 +35,11 @@ export const useInitialData = () => {
       }
     };
 
-    fetchData();
-  }, [dispatch, navigate, userData, requests]);
+  useEffect(() => {
+    if(!userData || !requests){
+         fetchData();
+    }
+  }, []);
 
   return { loading };
 };

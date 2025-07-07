@@ -9,24 +9,29 @@ const Feed = () => {
 
  // eslint-disable-next-line react-hooks/rules-of-hooks
   const dispatch = useDispatch();
-  const feed = useSelector(store=>store.feed)
-  const users = feed?.users;
+  const users= useSelector(store=>store.feed)
+
   const getFeed =async()=>{
     const res = await axios.get(url + '/feed',{
       withCredentials:true
     })
-    dispatch(addFeed(res.data));
+    dispatch(addFeed(res.data.users));
   }
 
   useEffect(()=>{
       getFeed();
   },[])
- 
+  if(!users) return
+  if(users.length === 0 ){
+    return (
+      <div className='flex justify-center items-center text-2xl'>No more Feed !!</div>
+    )
+  }
 
   return (
-    feed &&
+    users &&
     <div className='flex justify-center my-10'>
-    <UserCard user={users[1]} />
+    <UserCard user={users[0]} />
     </div>
   )
 }
