@@ -7,6 +7,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { url } from '../utils/constants';
 import InputField from './InputField';
 import BackgroundImg from '../assets/backgroundimg.jpg'
+
 const Login = () => {
 
   const [isLogInForm, setIsLogInForm] = useState(true);
@@ -18,7 +19,7 @@ const Login = () => {
   const [gender, setGender] = useState('');
   const [age, setAge] = useState('');
   const [error, setError] = useState('');
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -33,12 +34,12 @@ const Login = () => {
         setPassword('');
         setEmailId('');
         setError('');
+        
       }, [isLogInForm]);
 
       useEffect(() => {
         setIsLogInForm(true); 
       }, []);
-
 
   const handleLogInForm = async () => {
     try {
@@ -50,10 +51,9 @@ const Login = () => {
         },
         { withCredentials: true }
       );
-      
+      navigate('/profile');
       dispatch(addUser(res.data.user))
-         
-      navigate('/');
+      
     } catch (error) {
       const backendMsg = error?.response?.data?.error;
       setError(backendMsg);
@@ -79,14 +79,12 @@ const Login = () => {
         { withCredentials: true }
       );
       dispatch(addUser(res.data.user))
-    
-      navigate('/profile');
+      navigate('/profile')
     } catch (error) {
       const backendMsg = error?.response?.data?.error;
       setError(backendMsg);
     }
   };
-
 
   return (
     <div className='relative min-h-screen bg-gray-900 '>
@@ -164,7 +162,7 @@ const Login = () => {
                     {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                   </div>
                 </div>
-                </>
+            </>
           )}
 
           <p className="text-red-500 text-center">{error}</p>

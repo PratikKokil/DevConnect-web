@@ -7,7 +7,6 @@ import Profile from "./components/Profile"
 import Connections from "./components/Connections"
 import Requests from "./components/Requests"
 
-
 function App() {
 
   const user = useSelector(store=>store.user)

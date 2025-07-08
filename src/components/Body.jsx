@@ -6,7 +6,7 @@ import Footer from './Footer'
 import { useInitialData } from '../hooks/useInitialData'
 
 const Body = () => {
-
+   
     const {loading} = useInitialData();
     if (loading){
       return (
