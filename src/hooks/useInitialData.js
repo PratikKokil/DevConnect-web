@@ -9,7 +9,7 @@ import { url } from '../utils/constants';
 export const useInitialData = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-   const location = useLocation();
+  //  const location = useLocation();
 
   const userData = useSelector((store) => store.user);
   const requests = useSelector((store) => store.Requests);
@@ -38,12 +38,12 @@ export const useInitialData = () => {
     };
 
   useEffect(() => {
-    const publicRoutes = ['/login', '/signup']; 
+    // const publicRoutes = ['/login', '/signup']; 
 
-    if (publicRoutes.includes(location.pathname)) {
-      setLoading(false);
-      return;
-    }
+    // if (publicRoutes.includes(location.pathname)) {
+    //   setLoading(false);
+    //   return;
+    // }
 
     if(!userData || !requests){
          fetchData();
@@ -51,7 +51,7 @@ export const useInitialData = () => {
     else {
       setLoading(false);
     }
-  }, [dispatch, navigate, userData, requests, location.pathname]);
+  }, [dispatch, navigate, userData, requests]);
 
   return { loading };
 };

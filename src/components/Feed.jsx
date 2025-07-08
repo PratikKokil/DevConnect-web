@@ -19,7 +19,8 @@ const Feed = () => {
   }
 
   useEffect(()=>{
-      getFeed();
+    if(!users){
+      getFeed();}
   },[])
 
   

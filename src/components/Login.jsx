@@ -24,6 +24,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+
       useEffect(() => {
      
         setFirstName('');
@@ -51,8 +52,8 @@ const Login = () => {
         },
         { withCredentials: true }
       );
+      dispatch(addUser(res.data.user));
       navigate('/profile');
-      dispatch(addUser(res.data.user))
       
     } catch (error) {
       const backendMsg = error?.response?.data?.error;
@@ -80,6 +81,7 @@ const Login = () => {
       );
       dispatch(addUser(res.data.user))
       navigate('/profile')
+     
     } catch (error) {
       const backendMsg = error?.response?.data?.error;
       setError(backendMsg);
