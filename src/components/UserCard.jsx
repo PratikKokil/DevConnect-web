@@ -4,7 +4,7 @@ import { url } from '../utils/constants';
 import { useDispatch } from 'react-redux';
 import { removeUserFromFeed } from '../utils/feedSlice';
 
-const UserCard = ({user,onAction}) => {
+const UserCard = ({user,onAction,isOnEdit}) => {
   const {_id,firstName,lastName,age,about,gender,photoUrl}=user;
   const dispatch = useDispatch();
 
@@ -37,8 +37,8 @@ const UserCard = ({user,onAction}) => {
             <p className=''>{age + " , "+ gender}</p>
             <p className=''>{about}</p>
             <div className="card-actions justify-center">
-            <button className="btn btn-primary" onClick={()=>handleSendRequest("ignored",_id)}>Ignore</button>
-            <button className="btn btn-secondary" onClick={()=>handleSendRequest("interested",_id)}>Interested</button>
+            <button className="btn btn-primary" onClick={()=> isOnEdit? null :handleSendRequest("ignored",_id)}>Ignore</button>
+            <button className="btn btn-secondary" onClick={()=> isOnEdit? null :handleSendRequest("interested",_id)}>Interested</button>
             </div>
         </div>
         </div>

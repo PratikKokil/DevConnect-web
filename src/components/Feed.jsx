@@ -68,7 +68,7 @@ return (
     {/* Content Wrapper */}
     <div className="relative z-10 flex justify-center items-center min-h-[60vh]">
       {users[0] ? (
-        <UserCard user={users[0]} onAction={handleAction} />
+        <UserCard user={users[0]} onAction={handleAction} isOnEdit={false}/>
       ) : (
               <div className="relative z-10 flex items-center justify-center min-h-[60vh]">
           <h1 className="text-white text-2xl text-center font-semibold">

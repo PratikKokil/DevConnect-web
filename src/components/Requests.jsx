@@ -11,7 +11,7 @@ const Requests = () => {
   const dispatch = useDispatch();
   const reviewRequest =async(status,_id)=>{
     try {
-      const res = await axios.post(
+      await axios.post(
       url + '/request/review/'+status+'/'+_id,
       {},
       {withCredentials:true}

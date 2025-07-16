@@ -80,7 +80,7 @@ const handleSaveProfile = async()=>{
           </div>
       </div>
         
-        <UserCard user={{firstName,lastName,about,age,photoUrl,gender}}/>
+        <UserCard user={{firstName,lastName,about,age,photoUrl,gender}} isOnEdit={true}/>
     </div>
     {toast &&
         <div className="toast toast-top toast-center">
