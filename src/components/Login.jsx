@@ -8,7 +8,7 @@ import { url } from '../utils/constants';
 import InputField from './InputField';
 import BackgroundImg from '../assets/backgroundimg.jpg'
 
-const Login = () => {
+const Login = ({refetch}) => {
 
   const [isLogInForm, setIsLogInForm] = useState(true);
   const [emailId, setEmailId] = useState('');
@@ -54,6 +54,11 @@ const Login = () => {
       );
       dispatch(addUser(res.data.user));
       navigate('/profile');
+      if (refetch) {
+        setTimeout(() => {
+          refetch();
+        }, 100);
+      }
       
     } catch (error) {
       const backendMsg = error?.response?.data?.error;
@@ -81,6 +86,12 @@ const Login = () => {
       );
       dispatch(addUser(res.data.user))
       navigate('/profile')
+
+       if (refetch) {
+        setTimeout(() => {
+          refetch();
+        }, 100);
+      }
      
     } catch (error) {
       const backendMsg = error?.response?.data?.error;

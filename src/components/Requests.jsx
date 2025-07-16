@@ -17,7 +17,7 @@ const Requests = () => {
       {withCredentials:true}
      )
      dispatch(removeRequest(_id))
-     console.log(res.data)
+  
     } catch (error) {
       console.log(error)
     }
