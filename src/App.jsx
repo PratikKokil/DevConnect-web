@@ -6,6 +6,7 @@ import { useSelector} from "react-redux"
 import Profile from "./components/Profile"
 import Connections from "./components/Connections"
 import Requests from "./components/Requests"
+import ProfileView from "./components/ProfileView"
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
         <Route path="/profile" element={<Profile/>}/>
         <Route path="/connections" element={<Connections/>}/>
         <Route path="/requests" element={<Requests/>}/>
+        <Route path="/view/profile/:id" element={<ProfileView/>}/>
         </Route>
       </Routes>
       </BrowserRouter>

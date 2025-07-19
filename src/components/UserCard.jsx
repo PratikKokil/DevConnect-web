@@ -3,11 +3,12 @@ import React from 'react'
 import { url } from '../utils/constants';
 import { useDispatch } from 'react-redux';
 import { removeUserFromFeed } from '../utils/feedSlice';
+import { useNavigate } from 'react-router-dom';
 
 const UserCard = ({user,onAction,isOnEdit}) => {
   const {_id,firstName,lastName,age,about,gender,photoUrl}=user;
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const handleSendRequest=async(status,_id)=>{
 
     try {
@@ -23,6 +24,9 @@ const UserCard = ({user,onAction,isOnEdit}) => {
     } catch (error) {
       console.log(error)
     }
+  }
+  const handleViewProfile =()=>{
+       navigate(`/view/profile/${_id}`)
   }
   return (
         <div className="card bg-gray-900 w-96 h-150  shadow-sm">
@@ -41,6 +45,17 @@ const UserCard = ({user,onAction,isOnEdit}) => {
             <button className="btn btn-secondary" onClick={()=> isOnEdit? null :handleSendRequest("interested",_id)}>Interested</button>
             </div>
         </div>
+        {!isOnEdit &&(
+          <div className="card bg-gray-900  h-10 shadow-sm relative" >
+          <div
+            className="absolute top-2 right-3 text-sm text-blue-400 hover:underline cursor-pointer"
+            onClick={handleViewProfile}
+          >
+            View Profile →
+          </div>
+          </div>
+        )}
+
         </div>
   )
 }

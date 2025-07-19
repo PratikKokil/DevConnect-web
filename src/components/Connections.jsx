@@ -4,6 +4,7 @@ import { url } from '../utils/constants'
 import { useDispatch, useSelector } from 'react-redux'
 import { addConnections } from '../utils/connectionsSlice'
 import BackgroundImg from '../assets/backgroundimg.jpg'
+import { Link } from 'react-router-dom'
 
 const Connections = () => {
   const dispatch = useDispatch();
@@ -57,6 +58,7 @@ const Connections = () => {
       <div className="relative z-10 flex flex-col items-center gap-6">
         {connections.map(({ firstName, lastName, photoUrl, age, gender, _id }) => (
           <div key={_id} className="w-full max-w-2xl px-4">
+            <Link to={`/view/profile/${_id}`}>
             <div className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-xl p-4 backdrop-blur-md shadow-md hover:shadow-xl hover:scale-[1.02] transition-transform duration-300">
               <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-blue-500">
                 <img
@@ -73,6 +75,7 @@ const Connections = () => {
                 <p className="text-sm text-gray-300">{age + ', ' + gender}</p>
               </div>
             </div>
+            </Link>
           </div>
         ))}
       </div>
