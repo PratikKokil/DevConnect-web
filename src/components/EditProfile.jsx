@@ -1,97 +1,179 @@
-import React, {  useState } from 'react'
-import InputField from './InputField';
-import UserCard from './UserCard';
-import axios from 'axios';
-import { url } from '../utils/constants';
-import { useDispatch } from 'react-redux';
-import { addUser } from '../utils/userSlice';
+import React, { useState } from "react";
+import InputField from "./InputField";
+import UserCard from "./UserCard";
+import axios from "axios";
+import { url } from "../utils/constants";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice";
 
-const EditProfile = ({user}) => {
-      const [firstName, setFirstName] = useState(user?.firstName);
-      const [lastName, setLastName] = useState(user?.lastName);
-      const [age,setAge]= useState(user?.age)
-      const [gender,setGender]= useState(user?.gender)
-      const [photoUrl,setPhotoUrl]=useState(user?.photoUrl)
-      const [about,setAbout]=useState(user?.about)
-      const [toast,setToast]=useState(false);
-      const dispatch =useDispatch()
-    //   const[skills,setSkills]=useState(user?.skills)
-      const [ error,setError]=useState('')
+const EditProfile = ({ user }) => {
+  const [firstName, setFirstName] = useState(user?.firstName);
+  const [lastName, setLastName] = useState(user?.lastName);
+  const [age, setAge] = useState(user?.age);
+  const [gender, setGender] = useState(user?.gender);
+  const [photoUrl, setPhotoUrl] = useState(user?.photoUrl);
+  const [about, setAbout] = useState(user?.about);
+  const [toast, setToast] = useState(false);
+  const dispatch = useDispatch();
+  const [skills, setSkills] = useState(user?.skills || []);
+  const [skillInput, setSkillInput] = useState("");
+  const [error, setError] = useState("");
 
-      
-const handleSaveProfile = async()=>{
-    setError('')
+  const handleSaveProfile = async () => {
+    setError("");
     try {
-              const res= await axios.post(
-        url+'/profile/edit',
+      const res = await axios.post(
+        url + "/profile/edit",
         {
-         firstName,
-         lastName,
-         age,
-         gender,
-         photoUrl,
-         about
-        }
-        ,{
-            withCredentials:true
-        }
-        )
+          firstName,
+          lastName,
+          age,
+          gender,
+          photoUrl,
+          skills,
+          about,
+        },
+        {
+          withCredentials: true,
+        },
+      );
       dispatch(addUser(res.data.data));
-      setToast(true)
-      setTimeout(()=>{
-        setToast(false)
-      },3000)
-        
+      setToast(true);
+      setTimeout(() => {
+        setToast(false);
+      }, 3000);
     } catch (error) {
-        setError(error.response.data)
+      setError(error.response.data);
     }
+  };
+  const handleAddSkill = (e) => {
+    if (e.key === "Enter" && skillInput.trim() !== "") {
+      e.preventDefault();
 
- }
+      if (skills.includes(skillInput.trim())) return;
 
- return (
-   <>
-    <div className='flex  justify-center m-4  gap-4'>    
-      <div className=" flex items-center justify-center mx-5 bg-base-200">
-        <div className="card card-border bg-gray-900 w-96">
+      setSkills([...skills, skillInput.trim()]);
+      setSkillInput("");
+    }
+  };
+
+  const removeSkill = (skillToRemove) => {
+    setSkills(skills.filter((skill) => skill !== skillToRemove));
+  };
+
+  return (
+    <>
+      <div className="flex  justify-center m-4  gap-4">
+        <div className=" flex items-center justify-center mx-5 bg-base-200">
+          <div className="card card-border bg-gray-900 w-96">
             <div className="card-body">
-            <h2 className="card-title justify-center">
-            {'Edit Your Profile'}
-            </h2>
-            <InputField label="First Name" type="text" value={firstName} onChange={(e) => {setFirstName(e.target.value);setError('');}} placeholder="Enter Your First Name" />
-            <InputField label="Last Name" type="text" value={lastName} onChange={(e) => {setLastName(e.target.value);setError('');}} placeholder="Enter Your Last Name "/>
-            <InputField label="Age" type="number" value={age} onChange={(e) => setAge(e.target.value)} placeholder="Enter your age" />
-            <InputField label="Gender" type="text" value={gender} onChange={(e) => setGender(e.target.value)} placeholder="male/female/other" />
-            <InputField label="PhotoUrl" type="Url" value={photoUrl} onChange={(e)=>setPhotoUrl(e.target.value)} placeholder="PhotoUrl"/>
-            <InputField label="About" type="textarea" value={about} onChange={(e)=>setAbout(e.target.value)} placeholder="Write about yourself"/>
-            
-            {/* <InputField label="Skills" type="text" value={skills} onChange={(e)=>setSkills(e.target.value)} placeholder="Your skills..."/> */}
-            <p className="text-red-500 text-center">{error}</p>
+              <h2 className="card-title justify-center">
+                {"Edit Your Profile"}
+              </h2>
+              <InputField
+                label="First Name"
+                type="text"
+                value={firstName}
+                onChange={(e) => {
+                  setFirstName(e.target.value);
+                  setError("");
+                }}
+                placeholder="Enter Your First Name"
+              />
+              <InputField
+                label="Last Name"
+                type="text"
+                value={lastName}
+                onChange={(e) => {
+                  setLastName(e.target.value);
+                  setError("");
+                }}
+                placeholder="Enter Your Last Name "
+              />
+              <InputField
+                label="Age"
+                type="number"
+                value={age}
+                onChange={(e) => setAge(e.target.value)}
+                placeholder="Enter your age"
+              />
+              <InputField
+                label="Gender"
+                type="text"
+                value={gender}
+                onChange={(e) => setGender(e.target.value)}
+                placeholder="male/female/other"
+              />
+              <InputField
+                label="PhotoUrl"
+                type="Url"
+                value={photoUrl}
+                onChange={(e) => setPhotoUrl(e.target.value)}
+                placeholder="PhotoUrl"
+              />
+              <InputField
+                label="About"
+                type="textarea"
+                value={about}
+                onChange={(e) => setAbout(e.target.value)}
+                placeholder="Write about yourself"
+              />
 
-            <div className="card-actions justify-center items-center">
-                <button
-                className="btn btn-primary"
-                  onClick={handleSaveProfile}
-                >
-                {'Save Profile'}
+              {/* Skills Section */}
+              <div>
+                <label className="block text-sm mb-1">Skills</label>
+
+                <input
+                  type="text"
+                  value={skillInput}
+                  onChange={(e) => setSkillInput(e.target.value)}
+                  onKeyDown={handleAddSkill}
+                  placeholder="Type a skill and press Enter"
+                  className="input w-full"
+                />
+
+                {/* Skill chips */}
+                {skills.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    {skills.map((skill, idx) => (
+                      <span
+                        key={idx}
+                        className="badge badge-outline cursor-pointer"
+                        onClick={() => removeSkill(skill)}
+                      >
+                        {skill} ✕
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* <InputField label="Skills" type="text" value={skills} onChange={(e)=>setSkills(e.target.value)} placeholder="Your skills..."/> */}
+              <p className="text-red-500 text-center">{error}</p>
+
+              <div className="card-actions justify-center items-center">
+                <button className="btn btn-primary" onClick={handleSaveProfile}>
+                  {"Save Profile"}
                 </button>
-            </div>
-            
+              </div>
             </div>
           </div>
+        </div>
+
+        <UserCard
+          user={{ firstName, lastName, about, age, photoUrl, gender,skills }}
+          isOnEdit={true}
+        />
       </div>
-        
-        <UserCard user={{firstName,lastName,about,age,photoUrl,gender}} isOnEdit={true}/>
-    </div>
-    {toast &&
+      {toast && (
         <div className="toast toast-top toast-center">
-        <div className="alert alert-success">
+          <div className="alert alert-success">
             <span>Profile Saved successfully.</span>
+          </div>
         </div>
-        </div>
-    }
-
+      )}
     </>
-  )
-}
+  );
+};
 
-export default EditProfile
+export default EditProfile;

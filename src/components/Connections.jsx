@@ -1,23 +1,22 @@
-import axios from 'axios'
-import React, { useEffect } from 'react'
-import { url } from '../utils/constants'
-import { useDispatch, useSelector } from 'react-redux'
-import { addConnections } from '../utils/connectionsSlice'
-import BackgroundImg from '../assets/backgroundimg.jpg'
-import { Link } from 'react-router-dom'
+import axios from "axios";
+import React, { useEffect } from "react";
+import { url } from "../utils/constants";
+import { useDispatch, useSelector } from "react-redux";
+import { addConnections } from "../utils/connectionsSlice";
+import { Link } from "react-router-dom";
 
 const Connections = () => {
   const dispatch = useDispatch();
-  const connections = useSelector(store => store.Connections);
+  const connections = useSelector((store) => store.Connections);
 
   const fetchConnections = async () => {
     try {
-      const res = await axios.get(url + '/user/connections', {
+      const res = await axios.get(`${url}/user/connections`, {
         withCredentials: true,
       });
       dispatch(addConnections(res.data.data));
     } catch (err) {
-      console.error('Error fetching connections:', err);
+      console.error("Error fetching connections:", err);
     }
   };
 
@@ -27,57 +26,76 @@ const Connections = () => {
 
   if (!connections) return null;
 
+  /* Empty State */
   if (connections.length === 0) {
     return (
-      <div className="relative min-h-screen bg-gray-900 overflow-hidden px-4 py-10">
-        {/* Background Image */}
-        <img
-          className="absolute inset-0 w-full h-full object-cover opacity-30 z-0"
-          src={BackgroundImg}
-          alt="Background"
-        />
-
-        <div className="relative z-10 flex items-center justify-center min-h-[60vh]">
-          <h1 className="text-white text-2xl text-center font-semibold">
-            You have no connections yet!
-          </h1>
-        </div>
+      <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center px-4">
+        <h1 className="text-xl font-semibold text-white mb-2">
+          No connections yet
+        </h1>
+        <p className="text-sm text-slate-400 text-center max-w-sm">
+          Start connecting with developers from the feed to build your network.
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="relative min-h-screen bg-gray-900 overflow-hidden px-4 py-10">
-      {/* Background Image */}
-      <img
-        className="absolute inset-0 w-full h-full object-cover opacity-35 z-0"
-        src={BackgroundImg}
-        alt="Background"
-      />
+    <div className="min-h-screen bg-slate-950 px-4 py-8">
+      
+      {/* Page Header */}
+      <div className="max-w-4xl mx-auto mb-6">
+        <h1 className="text-xl font-semibold text-white">
+          Your Connections
+        </h1>
+        <p className="text-sm text-slate-400">
+          Developers you’re connected with
+        </p>
+      </div>
 
-      <div className="relative z-10 flex flex-col items-center gap-6">
-        {connections.map(({ firstName, lastName, photoUrl, age, gender, _id }) => (
-          <div key={_id} className="w-full max-w-2xl px-4">
-            <Link to={`/view/profile/${_id}`}>
-            <div className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-xl p-4 backdrop-blur-md shadow-md hover:shadow-xl hover:scale-[1.02] transition-transform duration-300">
-              <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-blue-500">
+      {/* Connections List */}
+      <div className="max-w-4xl mx-auto space-y-4">
+        {connections.map(
+          ({ _id, firstName, lastName, photoUrl, role, skills = [] }) => (
+            <Link key={_id} to={`/view/profile/${_id}`}>
+              <div className="flex items-center gap-4 rounded-xl border border-slate-800 bg-slate-900 p-4 hover:bg-slate-800 transition">
+                
                 <img
+                  src={photoUrl || "https://via.placeholder.com/64"}
                   alt="profile"
-                  src={photoUrl}
-                  className="w-full h-full object-cover"
+                  className="h-14 w-14 rounded-full object-cover border border-slate-700"
                 />
-              </div>
 
-              <div>
-                <h1 className="text-lg font-semibold text-white">
-                  {firstName + ' ' + lastName}
-                </h1>
-                <p className="text-sm text-gray-300">{age + ', ' + gender}</p>
+                <div className="flex-1">
+                  <h2 className="text-sm font-semibold text-white">
+                    {firstName} {lastName}
+                  </h2>
+
+                  <p className="text-xs text-slate-400">
+                    {role || "Developer"}
+                  </p>
+
+                  {skills.length > 0 && (
+                    <div className="mt-1 flex flex-wrap gap-1">
+                      {skills.slice(0, 4).map((skill, idx) => (
+                        <span
+                          key={idx}
+                          className="text-[11px] rounded-full bg-slate-800 px-2 py-[2px] text-slate-300"
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                <span className="text-sm text-sky-400">
+                  View →
+                </span>
               </div>
-            </div>
             </Link>
-          </div>
-        ))}
+          )
+        )}
       </div>
     </div>
   );

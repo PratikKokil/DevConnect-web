@@ -16,21 +16,17 @@ const Login = ({refetch}) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [gender, setGender] = useState('');
-  const [age, setAge] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate()
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showConfirmPassword] = useState(false);
 
 
       useEffect(() => {
      
         setFirstName('');
         setLastName('');
-        setAge('');
-        setGender('');
         setConfirmPassword('');
         setPassword('');
         setEmailId('');
@@ -77,10 +73,8 @@ const Login = ({refetch}) => {
         {
           firstName,
           lastName,
-          age,
           password,
           emailId,
-          gender,
         },
         { withCredentials: true }
       );
@@ -99,113 +93,104 @@ const Login = ({refetch}) => {
     }
   };
 
-  return (
-    <div className='relative min-h-screen bg-gray-900 '>
-      <div>
-        <img className="absolute inset-0 w-full h-full object-cover opacity-40 z-0"src={BackgroundImg}></img>
-      </div>
-    <div className="min-h-screen flex items-center justify-center bg-base-200">
-      <div className="card card-border bg-gray-900 w-96">
-        <div className="card-body">
-          <h2 className="card-title justify-center">
-           {isLogInForm ? 'Log In to DevConnect' : 'Create Your DevConnect Account'}
-          </h2>
-           
-          {!isLogInForm && (
-            <>
-          <InputField label="First Name" type="text" value={firstName} onChange={(e) => {setFirstName(e.target.value);setError('');}} placeholder="Enter Your First Name" />
-          <InputField label="Last Name" type="text" value={lastName} onChange={(e) => {setLastName(e.target.value);setError('');}} placeholder="Enter Your Last Name "/>
-          <InputField label="Age" type="number" value={age} onChange={(e) => setAge(e.target.value)} placeholder="Enter your age" />
+return (
+  <div className="min-h-screen bg-slate-950 flex flex-col">
+    
 
-            </>
-          )}
-          <InputField label="Email" type="text" value={emailId} onChange={(e) => {setEmailId(e.target.value);setError('');}} placeholder="Enter Your Email" />
 
+    {/* Auth Card */}
+    <div className="flex flex-1 items-center justify-center">
+      <div className="w-[380px] rounded-2xl border border-slate-800 bg-slate-900 p-6 shadow-lg">
+        
+        {/* Heading */}
+        <h2 className="text-xl font-semibold text-white text-center">
+          {isLogInForm ? "Log in to DevConnect" : "Create DevConnect account"}
+        </h2>
+        <p className="text-sm text-slate-400 text-center mt-1">
+          Build. Connect. Grow.
+        </p>
+
+        {/* Form */}
+        <div className="mt-6 space-y-4">
 
           {!isLogInForm && (
-            <>
-            <InputField label="Gender" type="text" value={gender} onChange={(e) => setGender(e.target.value)} placeholder="male/female/other" />
-            </>
+            <div className="flex gap-2">
+              <input
+                className="w-1/2 rounded-lg bg-slate-800 border border-slate-700 px-3 py-2 text-sm text-white outline-none focus:border-sky-400"
+                placeholder="First name"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+              />
+              <input
+                className="w-1/2 rounded-lg bg-slate-800 border border-slate-700 px-3 py-2 text-sm text-white outline-none focus:border-sky-400"
+                placeholder="Last name"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+              />
+            </div>
           )}
-          <span>Password</span>
+
+          <input
+            className="w-full rounded-lg bg-slate-800 border border-slate-700 px-3 py-2 text-sm text-white outline-none focus:border-sky-400"
+            placeholder="Email address"
+            value={emailId}
+            onChange={(e) => setEmailId(e.target.value)}
+          />
+
+          {/* Password */}
           <div className="relative">
             <input
               type={showPassword ? "text" : "password"}
-              placeholder="Enter your Password"
+              placeholder="Password"
               value={password}
-              onChange={(e) => {setPassword(e.target.value);setError('');}}
-              onKeyDown={e =>{
-                 if(e.key === "Enter") 
-                  {
-                    isLogInForm ? handleLogInForm() : handleSignUpForm()
-                  }
-                }
-              }
-              className="input pr-10 w-full"
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full rounded-lg bg-slate-800 border border-slate-700 px-3 py-2 pr-10 text-sm text-white outline-none focus:border-sky-400"
             />
             <div
-              className="absolute top-[50%] right-3 transform -translate-y-1/2 cursor-pointer"
+              className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-slate-400"
               onClick={() => setShowPassword(!showPassword)}
             >
-              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
             </div>
           </div>
+
           {!isLogInForm && (
-            <>
-                 <span>Confirm Password</span>
-                <div className="relative">
-                  <input
-                    type={showConfirmPassword ? "text" : "password"}
-                    placeholder="Confirm the Password"
-                    value={confirmPassword}
-                    onChange={(e) =>{ setConfirmPassword(e.target.value);setError('');}}
-                    onKeyDown={e => {
-                      if(e.key === "Enter")
-                        { 
-                          isLogInForm ? handleLogInForm() : handleSignUpForm()
-                        }
-                      }
-                    }
-                    className="input pr-10 w-full"
-                  />
-                  <div
-                    className="absolute top-[50%] right-3 transform -translate-y-1/2 cursor-pointer"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  >
-                    {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                  </div>
-                </div>
-            </>
+            <input
+              type={showConfirmPassword ? "text" : "password"}
+              placeholder="Confirm password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              className="w-full rounded-lg bg-slate-800 border border-slate-700 px-3 py-2 text-sm text-white outline-none focus:border-sky-400"
+            />
           )}
 
-          <p className="text-red-500 text-center">{error}</p>
+          {error && (
+            <p className="text-sm text-red-400 text-center">{error}</p>
+          )}
 
+          {/* Button */}
+          <button
+            onClick={isLogInForm ? handleLogInForm : handleSignUpForm}
+            className="w-full rounded-lg bg-sky-400 py-2 text-sm font-medium text-black hover:bg-sky-300 transition cursor-pointer"
+          >
+            {isLogInForm ? "Log In" : "Create Account"}
+          </button>
+
+          {/* Toggle */}
           <p
-            className="cursor-pointer"
-            onClick={() => {
-              setIsLogInForm((value) => !value);
-              setError(null);
-            }}
+            className="text-center text-sm text-slate-400 cursor-pointer hover:text-sky-400"
+            onClick={() => setIsLogInForm(!isLogInForm)}
           >
             {isLogInForm
-              ? 'New to DevConnect? Click here'
-              : 'Already registered? Click here'}
+              ? "New here? Create an account →"
+              : "Already have an account? Log in →"}
           </p>
-
-          <div className="card-actions justify-center items-center">
-            <button
-              className="btn btn-primary"
-              onClick={isLogInForm ? handleLogInForm : handleSignUpForm}
-            >
-              {isLogInForm ? 'Log In' : 'Sign Up'}
-            </button>
-          </div>
-          
         </div>
       </div>
     </div>
-    </div>
-  );
+  </div>
+);
+
 };
 
 export default Login;

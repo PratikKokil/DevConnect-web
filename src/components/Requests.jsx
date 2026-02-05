@@ -1,106 +1,112 @@
-import React from 'react';
-import {  useDispatch, useSelector } from 'react-redux';
-import backgroundImg from '../assets/backgroundimg.jpg';
-import { url } from '../utils/constants';
-import axios from 'axios';
-import { removeRequest } from '../utils/requestsSlice';
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { url } from "../utils/constants";
+import { removeRequest } from "../utils/requestsSlice";
 
 const Requests = () => {
-  
   const requests = useSelector((store) => store.Requests);
   const dispatch = useDispatch();
-  const reviewRequest =async(status,_id)=>{
+
+  const reviewRequest = async (status, id) => {
     try {
       await axios.post(
-      url + '/request/review/'+status+'/'+_id,
-      {},
-      {withCredentials:true}
-     )
-     dispatch(removeRequest(_id))
-  
+        `${url}/request/review/${status}/${id}`,
+        {},
+        { withCredentials: true }
+      );
+      dispatch(removeRequest(id));
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-
-  }
-
-  if (!requests){ 
-          return (
-        <div className='flex justify-center h-screen items-center'>
-        <span className="loading loading-ring loading-xs"></span>
-        <span className="loading loading-ring loading-sm"></span>
-        <span className="loading loading-ring loading-md"></span>
-        <span className="loading loading-ring loading-lg"></span>
-        <span className="loading loading-ring loading-xl"></span>
-        </div>
-      )
   };
 
-  if (requests.length === 0)
+  /* Loading */
+  if (!requests) {
     return (
-      <div className="relative min-h-screen bg-gray-900 overflow-hidden px-4 py-10">
-        {/* Background Image */}
-        <img
-          className="absolute inset-0 w-full h-full object-cover opacity-30 z-0"
-          src={backgroundImg}
-          alt="Background"
-        />
-
-        <div className="relative z-10 flex items-center justify-center min-h-[60vh]">
-          <h1 className="text-white text-2xl text-center font-semibold">
-            You have no connections request yet!
-          </h1>
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+        <div className="animate-pulse text-slate-400">
+          Loading requests…
         </div>
       </div>
     );
+  }
+
+  /* Empty State */
+  if (requests.length === 0) {
+    return (
+      <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center px-4">
+        <h1 className="text-xl font-semibold text-white mb-2">
+          No connection requests
+        </h1>
+        <p className="text-sm text-slate-400 text-center max-w-sm">
+          When developers send you requests, they’ll appear here.
+        </p>
+      </div>
+    );
+  }
 
   return (
-    <div className="relative min-h-screen bg-gray-900 px-4 py-10">
-      {/* Background Image */}
-      <img
-        src={backgroundImg}
-        alt="Tech network background"
-        className="absolute top-0 left-0 w-full h-full object-cover opacity-35 z-10"
-      />
+    <div className="min-h-screen bg-slate-950 px-4 py-8">
+      
+      {/* Page Header */}
+      <div className="max-w-4xl mx-auto mb-6">
+        <h1 className="text-xl font-semibold text-white">
+          Connection Requests
+        </h1>
+        <p className="text-sm text-slate-400">
+          Review and manage incoming requests
+        </p>
+      </div>
 
-      <h1 className="text-3xl text-white font-bold text-center mb-8">
-        Connection Requests
-      </h1>
-
-      <div className="flex flex-col gap-6 max-w-3xl mx-auto">
+      {/* Requests List */}
+      <div className="max-w-4xl mx-auto space-y-4">
         {requests.map((request) => {
-          const { firstName, lastName, photoUrl, about, _id } =
+          const { firstName, lastName, photoUrl, about } =
             request.fromUserId;
 
           return (
             <div
-              key={_id}
-              className="flex items-center justify-between gap-6 bg-white/5 border border-white/10 rounded-xl p-5 backdrop-blur-md shadow-md hover:shadow-xl  hover:scale-[1.01] transition-transform duration-300 z-20"
+              key={request._id}
+              className="flex items-center gap-4 rounded-xl border border-slate-800 bg-slate-900 p-4"
             >
-              {/* Profile Picture */}
-              <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-blue-500">
-                <img
-                  alt="profile"
-                  src={photoUrl}
-                  className="w-full h-full object-cover"
-                />
-              </div>
+              {/* Avatar */}
+              <img
+                src={photoUrl || "https://via.placeholder.com/64"}
+                alt="profile"
+                className="h-14 w-14 rounded-full object-cover border border-slate-700"
+              />
 
-              {/* User Info */}
+              {/* Info */}
               <div className="flex-1">
-                <h1 className="text-lg font-semibold text-white">
-                  {firstName + ' ' + lastName}
-                </h1>
-                <p className="text-sm text-white opacity-80">
-                  {about || 'No bio provided'}
+                <h2 className="text-sm font-semibold text-white">
+                  {firstName} {lastName}
+                </h2>
+                <p className="text-xs text-slate-400 line-clamp-2">
+                  {about || "No bio provided"}
                 </p>
               </div>
 
-              {/* Buttons */}
-             
-              <button className="btn btn-soft btn-secondary" onClick={()=>reviewRequest("rejected",request._id)}>Reject</button>
-              <button className="btn btn-soft btn-success" onClick={()=>reviewRequest("accepted",request._id)}>Accept</button>
-              
+              {/* Actions */}
+              <div className="flex gap-2">
+                <button
+                  className="rounded-lg border border-slate-700 px-4 py-1.5 text-sm text-slate-300 hover:bg-slate-800 transition"
+                  onClick={() =>
+                    reviewRequest("rejected", request._id)
+                  }
+                >
+                  Reject
+                </button>
+
+                <button
+                  className="rounded-lg bg-sky-400 px-4 py-1.5 text-sm font-medium text-black hover:bg-sky-300 transition"
+                  onClick={() =>
+                    reviewRequest("accepted", request._id)
+                  }
+                >
+                  Accept
+                </button>
+              </div>
             </div>
           );
         })}

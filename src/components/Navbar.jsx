@@ -12,7 +12,6 @@ const Navbar = () => {
     const requests = useSelector(store =>store.Requests)
     const dispatch = useDispatch();
     const navigate = useNavigate();
-   const firstName = user?.firstName ?? "Developer";
    const photoUrl = user?.photoUrl ?? "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp";
     
    const handleLogOut = async () => {
@@ -28,7 +27,8 @@ const Navbar = () => {
   
   return (
     <div>
-           <div className="navbar bg-gray-900 shadow-sm">
+          <div className="navbar bg-slate-950 border-b border-slate-800">
+
             <div className="flex-1">
                 <Link to="/" className="btn btn-ghost text-xl">DevConnect</Link>
             </div>
@@ -43,7 +43,7 @@ const Navbar = () => {
                       </div>
                     </button>
                    }
-                    <p className=''>Welcome , {firstName} !</p>
+                   
                 <div className="dropdown dropdown-end mr-5">
                     
                 <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
@@ -56,7 +56,7 @@ const Navbar = () => {
                 </div>       
                 <ul
                     tabIndex={0}
-                    className="menu menu-sm dropdown-content bg-gray-900 rounded-box z-1 mt-3 w-52 p-2 shadow">
+                    className="menu menu-sm dropdown-content bg-slate-900 border border-slate-800">
                     <li>
                     <Link to="/profile" className="justify-between">
                         Profile
